@@ -2,5 +2,9 @@ package com.emissaoboleto.emissaoboleto.services;
 
 public interface ReportService {
 
-    void emitirTodosBoletos();
+    byte[] buscaTodosOsBoletos();
+
+    byte[] buscarUmBoleto(String numeroGuia);
+
+    byte[] buscaIntervaloBoleto(String primeiroIndice, String segundoIndice);
 }
