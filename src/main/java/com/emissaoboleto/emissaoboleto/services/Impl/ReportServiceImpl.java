@@ -8,6 +8,7 @@ import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -18,6 +19,9 @@ public class ReportServiceImpl implements ReportService {
 
     @Autowired
     private EmissaoBoletoService emissaoBoleto;
+
+    @Value("${local.salvamento.boletos}")
+    private String localSalvamento;
 
     private void emitirBoletos(List<Boleto> boletoImpressao, boolean arquivoUnico) {
         try {
@@ -36,9 +40,9 @@ public class ReportServiceImpl implements ReportService {
             var jasperPrint = JasperFillManager.fillReport(inputStream, parameters, dataSource);
 
             if (Boolean.FALSE.equals(arquivoUnico)) {
-                JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\Patrick\\Documents\\boletos\\" + numeroGuia);
+                JasperExportManager.exportReportToPdfFile(jasperPrint, localSalvamento + numeroGuia);
             } else {
-                JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\Patrick\\Documents\\boletos\\boletos.pdf");
+                JasperExportManager.exportReportToPdfFile(jasperPrint, localSalvamento + "boletos.pdf");
             }
 
         } catch (JRException e) {
