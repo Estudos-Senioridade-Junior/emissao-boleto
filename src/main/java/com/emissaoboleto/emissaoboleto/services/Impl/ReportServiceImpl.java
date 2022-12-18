@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ReportServiceImpl implements ReportService {
@@ -18,9 +19,11 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private EmissaoBoletoService emissaoBoleto;
 
-    private byte[] emitirBoletos(List<Boleto> boletoImpressao) {
+    private void emitirBoletos(List<Boleto> boletoImpressao) {
         try {
             var inputStream = this.getClass().getResourceAsStream("/boletoCobranca.jasper");
+
+            var numeroGuia = boletoImpressao.get(0).getNumeroGuia() + ".pdf";
 
             var parameters = new HashMap<String, Object>();
             parameters.put("REPORT_LOCALE", new Locale("pt", "BR"));
@@ -29,7 +32,8 @@ public class ReportServiceImpl implements ReportService {
 
             var jasperPrint = JasperFillManager.fillReport(inputStream, parameters, dataSource);
 
-            return JasperExportManager.exportReportToPdf(jasperPrint);
+            JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\Patrick\\Documents\\boletos\\" + numeroGuia);
+
 
         } catch (JRException e) {
             throw new RuntimeException(e);
@@ -37,21 +41,24 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public byte[] buscaTodosOsBoletos() {
-       List<Boleto> listaTodosOsBoletos = emissaoBoleto.buscaTodos();
-       return emitirBoletos(listaTodosOsBoletos);
+    public void buscaTodosOsBoletos() {
+        List<Boleto> listaTodosOsBoletos = emissaoBoleto.buscaTodos();
+        listaTodosOsBoletos.stream()
+                .peek(boleto -> emitirBoletos(Collections.singletonList(boleto)))
+                .collect(Collectors.toList());
+
     }
 
     @Override
-    public byte[] buscarUmBoleto(String numeroGuia) {
+    public void buscarUmBoleto(String numeroGuia) {
         Boleto boleto = emissaoBoleto.buscaUmBoleto(numeroGuia);
-        return emitirBoletos(Collections.singletonList(boleto));
+        emitirBoletos(Collections.singletonList(boleto));
     }
 
     @Override
-    public byte[] buscaIntervaloBoleto(String primeiroIndice, String segundoIndice) {
+    public void buscaIntervaloBoleto(String primeiroIndice, String segundoIndice) {
         List<Boleto> listaIntervaloBoletos = emissaoBoleto.buscaIntervaloBoletos(primeiroIndice, segundoIndice);
-        return emitirBoletos(listaIntervaloBoletos);
+        emitirBoletos(listaIntervaloBoletos);
     }
 
 
