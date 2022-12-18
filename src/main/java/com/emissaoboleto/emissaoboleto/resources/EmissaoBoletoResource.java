@@ -16,8 +16,8 @@ public class EmissaoBoletoResource {
     private ReportService reportService;
 
     @GetMapping(path ="/todos")
-    public ResponseEntity<String> emitirTodosBoletos(){
-       reportService.buscaTodosOsBoletos();
+    public ResponseEntity<String> emitirTodosBoletos(@RequestParam boolean arquivoUnico){
+       reportService.buscaTodosOsBoletos(arquivoUnico);
         return ResponseEntity.ok()
                 .body("Boletos salvos com sucesso!");
     }
@@ -31,8 +31,9 @@ public class EmissaoBoletoResource {
 
     @GetMapping(path ="/intervalo-boletos")
     public ResponseEntity<String> emitirIntervaloBoletos(@RequestParam String primeiroIndice,
-                                                         @RequestParam String segundoIndice){
-        reportService.buscaIntervaloBoleto(primeiroIndice, segundoIndice);
+                                                         @RequestParam String segundoIndice,
+                                                         @RequestParam boolean arquivoUnico){
+        reportService.buscaIntervaloBoleto(primeiroIndice, segundoIndice, arquivoUnico);
         return ResponseEntity.ok()
                 .body("Boletos salvos com sucesso!");
     }

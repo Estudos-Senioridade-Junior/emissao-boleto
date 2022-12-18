@@ -19,11 +19,14 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     private EmissaoBoletoService emissaoBoleto;
 
-    private void emitirBoletos(List<Boleto> boletoImpressao) {
+    private void emitirBoletos(List<Boleto> boletoImpressao, boolean arquivoUnico) {
         try {
             var inputStream = this.getClass().getResourceAsStream("/boletoCobranca.jasper");
+            var numeroGuia = "";
 
-            var numeroGuia = boletoImpressao.get(0).getNumeroGuia() + ".pdf";
+            if (Boolean.FALSE.equals(arquivoUnico)) {
+                numeroGuia = boletoImpressao.get(0).getNumeroGuia() + ".pdf";
+            }
 
             var parameters = new HashMap<String, Object>();
             parameters.put("REPORT_LOCALE", new Locale("pt", "BR"));
@@ -32,8 +35,11 @@ public class ReportServiceImpl implements ReportService {
 
             var jasperPrint = JasperFillManager.fillReport(inputStream, parameters, dataSource);
 
-            JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\Patrick\\Documents\\boletos\\" + numeroGuia);
-
+            if (Boolean.FALSE.equals(arquivoUnico)) {
+                JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\Patrick\\Documents\\boletos\\" + numeroGuia);
+            } else {
+                JasperExportManager.exportReportToPdfFile(jasperPrint, "C:\\Users\\Patrick\\Documents\\boletos\\boletos.pdf");
+            }
 
         } catch (JRException e) {
             throw new RuntimeException(e);
@@ -41,25 +47,34 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void buscaTodosOsBoletos() {
+    public void buscaTodosOsBoletos(boolean arquivoUnico) {
         List<Boleto> listaTodosOsBoletos = emissaoBoleto.buscaTodos();
-        listaTodosOsBoletos.stream()
-                .peek(boleto -> emitirBoletos(Collections.singletonList(boleto)))
-                .collect(Collectors.toList());
+        if (Boolean.FALSE.equals(arquivoUnico)) {
+            listaTodosOsBoletos.stream()
+                    .peek(boleto -> emitirBoletos(Collections.singletonList(boleto), arquivoUnico))
+                    .collect(Collectors.toList());
+        } else {
+            emitirBoletos(listaTodosOsBoletos, arquivoUnico);
+        }
 
     }
 
     @Override
     public void buscarUmBoleto(String numeroGuia) {
         Boleto boleto = emissaoBoleto.buscaUmBoleto(numeroGuia);
-        emitirBoletos(Collections.singletonList(boleto));
+        emitirBoletos(Collections.singletonList(boleto), false);
     }
 
     @Override
-    public void buscaIntervaloBoleto(String primeiroIndice, String segundoIndice) {
+    public void buscaIntervaloBoleto(String primeiroIndice, String segundoIndice, boolean arquivoUnico) {
         List<Boleto> listaIntervaloBoletos = emissaoBoleto.buscaIntervaloBoletos(primeiroIndice, segundoIndice);
-        emitirBoletos(listaIntervaloBoletos);
+        if (Boolean.FALSE.equals(arquivoUnico)) {
+            listaIntervaloBoletos.stream()
+                    .peek(boleto -> emitirBoletos(Collections.singletonList(boleto), arquivoUnico))
+                    .collect(Collectors.toList());
+        } else {
+            emitirBoletos(listaIntervaloBoletos, arquivoUnico);
+        }
     }
-
 
 }
