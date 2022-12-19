@@ -14,27 +14,29 @@ import javax.persistence.Id;
 public class Boleto {
 
     @Id
-    @Column(name = "numeroguia", length = 100)
+    @Column(name = "Numero Guia",columnDefinition="TEXT", nullable = false)
     private String numeroGuia;
-    @Column(length = 1000)
-    private String indice;
-    @Column(length = 1000)
+    @Column(name = "index",length = 1000)
+    private long indice;
+    @Column(name = "Nome",length = 1000)
     private String nome;
-    @Column(name = "numregistro", length = 12)
+    @Column(name = "Num. Registro", length = 12)
     private String numRegistro;
-    private Integer categoria;
-    @Column(name = "datavencto", length = 100)
+    private long categoria;
+    @Column(name = "Data Vencto", length = 100)
     private String dataVencto;
-    @Column(name = "dataimpressao", length = 100)
+    @Column(name = "Data Impressao", length = 100)
     private String dataImpressao;
-    @Column(name = "codigobarras", length = 1000)
+    @Column(name = "Codigo Barras", length = 1000)
     private String codigoBarras;
-    @Column(name = "totalguia", length = 100)
+    @Column(name = "Total Guia", length = 100)
     private String totalGuia;
-    @Column(name = "cpfcnpj", length = 100)
+    @Column(name = "CPF", length = 100)
     private String cpfCnpj;
-    @Column(length = 10000)
+    @Column(name = "Mensagem",length = 10000)
     private String mensagem;
-    @Column(name = "enderecocompleto", length = 1000)
+    @Column(name = "Endereco_Completo", length = 1000)
     private String enderecoCompleto;
+    @Column(name = "Linha Digitavel", length = 1000)
+    private String linhaDigitavel;
 }
