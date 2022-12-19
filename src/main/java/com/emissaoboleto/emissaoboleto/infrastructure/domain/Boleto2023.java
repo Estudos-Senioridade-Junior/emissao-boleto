@@ -11,30 +11,31 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Boleto {
+public class Boleto2023 {
 
-    @Id
-    @Column(name = "numeroguia", length = 100)
+    @Column(name = "Nguia")
     private String numeroGuia;
-    @Column(length = 1000)
+    @Id
+    @Column(name = "index")
     private String indice;
-    @Column(length = 1000)
     private String nome;
-    @Column(name = "numregistro", length = 12)
+    @Column(name = "registro")
     private String numRegistro;
     private Integer categoria;
-    @Column(name = "datavencto", length = 100)
+    @Column(name = "vencimento")
     private String dataVencto;
-    @Column(name = "dataimpressao", length = 100)
+    @Column(name = "dtimpressao")
     private String dataImpressao;
-    @Column(name = "codigobarras", length = 1000)
+    @Column(name = "Codigobarras")
     private String codigoBarras;
-    @Column(name = "totalguia", length = 100)
+    @Column(name = "Totalguia")
     private String totalGuia;
-    @Column(name = "cpfcnpj", length = 100)
+    @Column(name = "CPF")
     private String cpfCnpj;
-    @Column(length = 10000)
     private String mensagem;
-    @Column(name = "enderecocompleto", length = 1000)
+    @Column(name = "Endereco_Completo")
     private String enderecoCompleto;
+    @Column(name = "Linhadigitavel")
+    private String linhaDigitavel;
+
 }

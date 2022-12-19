@@ -1,16 +1,16 @@
 package com.emissaoboleto.emissaoboleto.infrastructure.repository;
 
-import com.emissaoboleto.emissaoboleto.infrastructure.domain.Boleto;
+import com.emissaoboleto.emissaoboleto.infrastructure.domain.Boleto2023;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface BoletoRepository extends JpaRepository<Boleto, String> {
+public interface BoletoRepository extends JpaRepository<Boleto2023, String> {
 
-    List<Boleto>findBoletoByIndiceBetween(String primeiroIndice, String segundoIndice);
+    List<Boleto2023>findBoletoByIndiceBetween(String primeiroIndice, String segundoIndice);
 
-    Boleto findByNumeroGuia(String numeroGuia);
+    Boleto2023 findByNumeroGuia(String numeroGuia);
 
 }

@@ -8,11 +8,11 @@
         <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.emissao-boleto</groupId>
-    <artifactId>emissao-boleto</artifactId>
+    <groupId>com.emissao-boleto2023</groupId>
+    <artifactId>emissao-boleto2023</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>emissao-boleto</name>
-    <description>emissao-boleto</description>
+    <name>emissao-boleto2023</name>
+    <description>emissao-boleto2023</description>
     <properties>
         <java.version>17</java.version>
     </properties>
